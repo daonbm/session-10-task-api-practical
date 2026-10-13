@@ -1,13 +1,19 @@
-# một stage: vừa build vừa chạy
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-COPY .gradle/ .gradle
-COPY ./gradlew build.gradle ./
+# Copy Gradle wrapper and configuration files
+COPY gradlew ./
+COPY gradle/ gradle/
+COPY build.gradle settings.gradle ./
+
+# Pre-download dependencies
 RUN ./gradlew dependencies --no-daemon
-COPY src ./src
-RUN ./gradlew clean build -x test --no-daemon
+
+# Copy the rest of the project source code
+COPY . .
+
+# Build the application jar
+RUN ./gradlew bootJar --no-daemon
+
 EXPOSE 8085
-
-ENTRYPOINT ["java","-jar","libs/session-09-task-apis-v2-0.0.1-SNAPSHOT.jar"]
-
+ENTRYPOINT ["java", "-jar", "build/libs/*.jar"]
