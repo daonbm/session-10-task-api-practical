@@ -17,4 +17,4 @@ COPY . .
 RUN ./gradlew bootJar --no-daemon
 
 EXPOSE 8085
-ENTRYPOINT ["java", "-jar", "build/libs/*.jar"]
+ENTRYPOINT ["java", "-jar", "build/libs/session-09-task-apis-v2-0.0.1-SNAPSHOT.jar"]
