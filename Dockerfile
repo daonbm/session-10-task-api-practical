@@ -1,21 +1,19 @@
 FROM eclipse-temurin:21-jdk
 WORKDIR /app
 
-# Copy Gradle wrapper and configuration files
+# Copy wrapper and build configurations
 COPY gradlew ./
 COPY gradle/ gradle/
 COPY build.gradle settings.gradle ./
 
-# Fix permissions for gradlew
+# Ensure gradlew is executable before any run command
 RUN chmod +x gradlew
 
 # Pre-download dependencies
 RUN ./gradlew dependencies --no-daemon
 
-# Copy the rest of the project source code
+# Copy source code and build
 COPY . .
-
-# Build the application jar
 RUN ./gradlew bootJar --no-daemon
 
 EXPOSE 8085
