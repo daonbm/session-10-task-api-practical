@@ -6,6 +6,9 @@ COPY gradlew ./
 COPY gradle/ gradle/
 COPY build.gradle settings.gradle ./
 
+# Fix permissions for gradlew
+RUN chmod +x gradlew
+
 # Pre-download dependencies
 RUN ./gradlew dependencies --no-daemon
 
